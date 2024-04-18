@@ -3,16 +3,27 @@
 
 <h3>Todo (@todos.Count(todo => !todo.IsDone))</h3>
 <ul>
-    @foreach (var todo in todos)
+    
+    @if (todos.Any())
     {
-        <li>
-            <input type="checkbox" @bind="todo.IsDone"/>
-            <input @bind="todo.Title"/>
-        </li>
+        @foreach (var todo in todos)
+        {
+            <li>
+                <input type="checkbox" @bind="todo.IsDone"/>
+                <input @bind="todo.Title"/>
+            </li>
+        }
+    }
+    else
+    {
+    <li>
+        <h4>Add new tasks to your list!</h4>
+    </li>
     }
 </ul>
 <input @bind="newTodo"/>
 <button @onclick="AddTodo">Add todo</button>
+<button @onclick="Reset">Reset</button>
 
 @code {
     private List<TodoItem> todos = new();
@@ -26,5 +37,11 @@
             todos.Add(new TodoItem() {Title = newTodo});
             newTodo = string.Empty;
         }
+    }
+
+    void Reset()
+    {
+       todos.Clear();
+
     }
 }
